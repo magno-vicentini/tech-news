@@ -45,7 +45,7 @@ def scrape_noticia(html_content):
     new_info = dict()
     new_info['url'] = selector.xpath('//link[@rel="canonical"]/@href').get()
     new_info['title'] = selector.css('.entry-title::text').get()
-    new_info['timestamp'] = selector.css('.meta-date::text').get()
+    new_info['timestamp'] = selector.css("li.meta-date::text").get()
     new_info['writer'] = selector.css('.author a::text').get()
     new_info['summary'] = ''.join((
         selector.css('.entry-content p:nth-child(2) *::text').getall()
