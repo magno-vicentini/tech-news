@@ -40,12 +40,11 @@ def scrape_next_page_link(html_content):
 # Requisito 4
 def scrape_noticia(html_content):
     selector = Selector(text=html_content)
-    print('Selector', selector)
-
+   
     new_info = dict()
     new_info['url'] = selector.xpath('//link[@rel="canonical"]/@href').get()
     new_info['title'] = selector.css('.entry-title::text').get()
-    new_info['timestamp'] = selector.css("li.meta-date::text").get()
+    new_info['timestamp'] = selector.css('.meta-date::text').get()
     new_info['writer'] = selector.css('.author a::text').get()
     new_info['summary'] = ''.join((
         selector.css('.entry-content p:nth-child(2) *::text').getall()
@@ -62,16 +61,15 @@ def scrape_noticia(html_content):
 
 
 # new_fetch = fetch(
-# 'https://blog.betrybe.com/noticias/resurgence-mmo-ganha-prologo-confira/'
-# )
+# 'https://blog.betrybe.com/noticias/resurgence-mmo-ganha-prologo-confira/')
 # scrape_noticia(new_fetch)
 
 # Requisito 5
 
 
 def get_tech_news(amount):
-    data_page = fetch('https://blog.betrybe.com/')
-    page_news = scrape_novidades(data_page)
+    data = fetch('https://blog.betrybe.com/')
+    page_news = scrape_novidades(data)
     news = []
     while len(news) < amount:
         for link in page_news:
@@ -79,7 +77,7 @@ def get_tech_news(amount):
             news.append(scrape_noticia(news_data))
 
         try:
-            data = fetch(scrape_next_page_link(data_page))
+            data = fetch(scrape_next_page_link(data))
             page_news = scrape_novidades(data)
         except FileNotFoundError:
             break
