@@ -1,6 +1,7 @@
 import requests
 from time import sleep
 from parsel import Selector
+from tech_news.database import create_news
 # Requisito 1
 
 
@@ -60,11 +61,28 @@ def scrape_noticia(html_content):
     return new_info
 
 
-new_fetch = fetch('https://blog.betrybe.com/noticias/resurgence-mmo-ganha-prologo-confira/')
-scrape_noticia(new_fetch)
+# new_fetch = fetch('https://blog.betrybe.com/noticias/resurgence-mmo-ganha-prologo-confira/')
+# scrape_noticia(new_fetch)
 
 # Requisito 5
 
 
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    data_page = fetch('https://blog.betrybe.com/')
+    page_news = scrape_novidades(data_page)
+    news = []
+    while len(news) < amount:
+        for link in page_news:
+            news_data = fetch(link)
+            news.append(scrape_noticia(news_data))
+
+        try:
+            data = fetch(scrape_next_page_link(data_page))
+            page_news = scrape_novidades(data)
+        except FileNotFoundError:
+            break
+
+    news = news[:amount]
+    create_news(news)
+
+    return news
