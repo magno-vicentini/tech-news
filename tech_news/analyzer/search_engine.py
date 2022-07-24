@@ -2,6 +2,7 @@ import re
 from datetime import datetime
 from tech_news.database import search_news
 
+
 # Requisito 6
 def search_by_title(title):
     title_regex = re.compile(title, re.IGNORECASE)
