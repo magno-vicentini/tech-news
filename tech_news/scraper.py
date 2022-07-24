@@ -40,7 +40,7 @@ def scrape_next_page_link(html_content):
 # Requisito 4
 def scrape_noticia(html_content):
     selector = Selector(text=html_content)
-   
+
     new_info = dict()
     new_info['url'] = selector.xpath('//link[@rel="canonical"]/@href').get()
     new_info['title'] = selector.css('.entry-title::text').get()
@@ -51,7 +51,9 @@ def scrape_noticia(html_content):
     ))
     new_info['tags'] = selector.xpath('//a[@rel="tag"]/text()').getall()
     new_info['category'] = selector.css('.category-style .label::text').get()
-    new_info['comments_count'] = len(selector.css("ol.comment-list li").getall()) or 0
+    new_info['comments_count'] = len(
+        selector.css("ol.comment-list li").getall()
+    ) or 0
     return new_info
 
 
