@@ -60,10 +60,6 @@ def scrape_noticia(html_content):
     return new_info
 
 
-# new_fetch = fetch(
-# 'https://blog.betrybe.com/noticias/resurgence-mmo-ganha-prologo-confira/')
-# scrape_noticia(new_fetch)
-
 # Requisito 5
 
 
