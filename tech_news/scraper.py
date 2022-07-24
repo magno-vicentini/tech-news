@@ -51,12 +51,7 @@ def scrape_noticia(html_content):
     ))
     new_info['tags'] = selector.xpath('//a[@rel="tag"]/text()').getall()
     new_info['category'] = selector.css('.category-style .label::text').get()
-    comments_text = selector.css('#comments .title-block::text').get()
-    new_info['comments_count'] = (
-        comments_text[:-len(' COMMENTS')]
-        if type(comments_text) == 'string'
-        else 0
-    )
+    new_info['comments_count'] = len(selector.css("ol.comment-list li").getall()) or 0
     return new_info
 
 
