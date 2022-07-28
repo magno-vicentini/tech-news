@@ -1,4 +1,5 @@
-from tech_news.database import get_collection
+from tech_news.database import get_collection, find_news
+from collections import Counter
 # Requisito 10
 
 
@@ -14,4 +15,17 @@ def top_5_news():
 
 # Requisito 11
 def top_5_categories():
-    'req 11'
+    count_common_categories = Counter(
+        news["category"] for news in find_news()
+    ).most_common(5)
+
+    sort_categories = sorted(
+        sorted(
+            count_common_categories,
+            key=lambda x: x[0],
+        ),
+        key=lambda x: x[1],
+        reverse=True,
+    )
+
+    return [category[0] for category in sort_categories]
